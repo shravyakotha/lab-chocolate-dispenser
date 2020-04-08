@@ -78,39 +78,183 @@ else
 
 
 //Progression 4: Dispense ___ chocolates of ____ color
-var res=[];
-function dispenseChocolatesOfColor(chocolates,number,color){
-  if(number>chocolates.length)
-  {
-    return "Insufficient chocolates in the dispenser";
-  }
-  else if(number>0)
-  {
-    for(var i=0;i<=number;i++){
-      for(var j=0;j<=number;j++)
-      if(color[j] == chocolates[i]){
-        res[i] = chocolates.pop();
+
+function dispenseChocolatesOfColor(chocolates, number, color) {
+  let a = [];
+  var favourite = 0;
+  if (number > chocolates.length)
+      return "Insufficient chocolates in the dispenser";
+  if (number <= 0)
+      return "Number cannot be zero/negative";
+  for (var i = chocolates.length - 1; i >= 0; i--) {
+      if (chocolates[i] == color) {
+          a.push(chocolates.pop());
+          favourite++;
+          if (favourite == number)
+              return a;
       }
-    }
-    return res;
   }
-    else{
-      return  "Number cannot be zero/negative" ;
-    
-  }
+  if (favourite != number)
+      return "Insufficient chocolates in the dispenser";
 }
 
 
+
 //Progression 5: Display ___ chocolates of each color. Return array of numbers [green, silver, blue, crimson, purple, red, pink]
+
+function noOfChocolates(chocolates) {
+
+  var arr = [];
+  for (var i = 0; i < chocolates.length; i++) {
+      if (chocolates[i] !== 0) {
+          var count = 1;
+          for (var j = i + 1; j < chocolates.length; j++) {
+              if (chocolates[i] == chocolates[j]) {
+                  count++;
+                  chocolates[j] = 0;
+              }
+          }
+          arr.push(count);
+      }
+  }
+  return arr;
+}
+
+/*function removeDuplicates(arra) {
+  return arra.filter((a, b) => arra.indexOf(a) === b);
+}*/
+
+
+
 
 
 //Progression 6: Sort chocolates based on count in each color. Return array of colors
 
 
+
+function sortChocolateBasedOnCount(chocolates)
+{
+    let cho = chocolates.reduce(function (b, a) {
+        if (a in b) {
+            b[a]++;
+        } else {
+            b[a] = 1;
+        }
+        return b;
+    }, {});
+    let Array = chocolates.sort((a, b) => {
+        if (cho[b] > cho[a]) {
+            return 1;
+        }
+        if (cho[b] < cho[a]) {
+            return -1;
+        }
+        if (a > b) {
+            return 1;
+        }
+        if (a < b) {
+            return -1;
+        }
+    });
+    chocolates = Array;
+}
+
+/*function sortChocolateBasedOnCount(chocolates) {
+  var temp, res = [];
+  var inNumbers = noOfChocolates(chocolates)
+  var afterRemoveDuplicates = removeDuplicates(chocolates)
+  for (var index = 0; index < afterRemoveDuplicates.length; index++) {
+      res.push(afterRemoveDuplicates[index])
+  }
+  return res
+}*/
+
+
+
 //Progression 7: Change ___ chocolates of ____ color to ____ color
+
+function changeChocolateColor(chocolates, number, color, finalColor) {
+  var count = 0;
+  if (chocolates.length == 0)
+      return chocolates;
+  if (number <= 0)
+      return "Number cannot be zero/negative";
+  if (number > chocolates.length)
+      return "Insufficient chocolates in the dispenser";
+  for (var i = 0; i < chocolates.length; i++) {
+      if (chocolates[i] == finalColor)
+          return "Can't replace the same chocolates";
+      if (chocolates[i] == color) {
+          chocolates[i] = finalColor;
+          count++;
+          if (count == number)
+              return chocolates;
+
+      }
+  }
+  if (count < number)
+      return "Insufficient chocolates in the dispenser";
+
+}
+
 
 
 //Progression 8: Change all chocolates of ____ color to ____ color and return [countOfChangedColor, chocolates]
+
+/*function changeChocolateColorAllOfxCount(chocolates, color, finalColor) {
+  var count = 0;
+  let arr = [];
+  let arr1 = [];
+  if (chocolates.length == 0) {
+      arr.push(count, arr1);
+      return arr;
+  }
+
+  else {
+      for (var i = 0; i < chocolates.length; i++) {
+          if (chocolates[i] == finalColor)
+              return "Can't replace the same chocolates";
+
+          else if (chocolates[i] == color) {
+              chocolates[i] = finalColor;
+
+
+          }
+
+      }
+  }
+  for (var i = 0; i < chocolates.length; i++) {
+      if (chocolates[i] == finalColor) {
+          count++;
+          arr1.push(chocolates[i]);
+
+      }
+
+  }
+
+
+  arr.push(count, arr1);
+  return arr;
+}*/
+
+function changeChocolateColorAllOfxCount(chocolates, color, finalColor) {
+  if (color == finalColor)
+      return 'Can\'t replace the same chocolates'
+  else if (chocolates.length == 1) {
+      chocolates[0] = finalColor
+      return [1, chocolates]
+  } else if (chocolates.length == 0) {
+      return [0, []]
+  }
+  for (var i = 0; i < chocolates.length; i++) {
+      if (chocolates[i] == color) {
+          chocolates[i] = finalColor
+      }
+
+  }
+  return [chocolates.length, chocolates]
+}
+
 
 
 //Challenge 1: Remove one chocolate of ____ color from the top
